@@ -3,12 +3,20 @@
 import Random from './../../services/Random.js';
 
 export default class HomeController {
-    constructor($timeout, passwordList, pgp) {
+    constructor($timeout, pgp) {
         this.timeout = $timeout;
-        this.passwordList = passwordList;
         this.pgp = pgp;
 
         this.passwords = [];
+
+        const port = chrome.runtime.connect('pnhaikohelnlfpmjgiajjlgliofccjdc');
+        port.postMessage({cmd: 'sendFiles'});
+        port.onMessage.addListener((msg) => {
+            if (msg.cmd === 'sendFiles') {
+                console.log(msg.files);
+                this.passwords = msg.files;
+            }
+        });
     }
 
     decryptPassword(password) {
@@ -28,4 +36,4 @@ export default class HomeController {
     }
 }
 
-HomeController.$inject = ['$timeout', 'passwordList', 'pgp'];
+HomeController.$inject = ['$timeout', 'pgp'];

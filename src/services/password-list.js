@@ -1,24 +1,23 @@
 'use strict';
 
 export default class PasswordList {
-    constructor($q, storage, fileSystem) {
+    constructor($q, storage) {
         this.promise = $q;
         this.storage = storage;
-        this.fileSystem = fileSystem;
 
         this.passwords = [];
 
-        this.passDir = this.storage.fetch('passDir').then((result) => {
-            if (result !== null) {
-                return this.fileSystem.restoreEntry(result.passDir);
-            }
-            return null;
-        }).catch((err) => {
-            console.error(err);
-            return null;
-        });
+        // this.passDir = this.storage.fetch('passDir').then((result) => {
+        //     if (result) {
+        //         return this.fileSystem.restoreEntry(result.passDir);
+        //     }
+        //     return null;
+        // }).catch((err) => {
+        //     console.error(err);
+        //     return null;
+        // });
 
-        this.refreshPasswordList();
+        // this.refreshPasswordList();
     }
 
     refreshPasswordList() {
@@ -48,4 +47,4 @@ export default class PasswordList {
     }
 }
 
-PasswordList.$injects = ['$q', 'storage', 'fileSystem'];
+PasswordList.$injects = ['$q', 'storage'];

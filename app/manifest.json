@@ -1,0 +1,18 @@
+{
+    "name": "compass",
+    "version": "1.0",
+    "description": "Chrome extension for pass (password-store).  Connects to Northern Pass for key and password info.",
+    "icons": {
+        "128": "news_icon.png"
+    },
+    "browser_action": {
+        "default_title": "Compass",
+        "default_icon": "news_action.png",
+        "default_popup": "index.html"
+    },
+    "permissions": [
+        "storage",
+        "clipboardWrite"
+    ],
+    "manifest_version": 2
+}

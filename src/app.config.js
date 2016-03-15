@@ -7,10 +7,6 @@ export default function config($routeProvider) {
         template: require('./components/home/home.html'),
         controller: 'HomeController',
         controllerAs: 'vm'
-    }).when('/settings', {
-        template: require('./components/settings/settings.html'),
-        controller: 'SettingsController',
-        controllerAs: 'vm'
     }).otherwise({
         redirectTo: '/home'
     });

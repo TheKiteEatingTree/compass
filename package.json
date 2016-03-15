@@ -24,7 +24,7 @@
     "angular-recursion": "^1.0.5",
     "angular-route": "^1.5.0",
     "angular-treemendous": "^0.2.4",
-    "bootstrap": "^3.3.6",
+    "materialize-css": "^0.97.5",
     "openpgp": "^2.1.0"
   },
   "devDependencies": {

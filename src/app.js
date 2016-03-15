@@ -1,6 +1,6 @@
 'use strict';
 
-import 'bootstrap/dist/css/bootstrap.css';
+import 'materialize-css/dist/css/materialize.min.css';
 
 import angular from 'angular';
 import ngRoute from 'angular-route';
@@ -11,9 +11,7 @@ import 'imports?angular=angular!angular-treemendous';
 import config from './app.config.js';
 
 import HomeController from './components/home/home.controller.js';
-import SettingsController from './components/settings/settings.controller.js';
 
-import fileSystem from './services/file-system.js';
 import storage from './services/storage.js';
 import passwordList from './services/password-list.js';
 import pgp from './services/pgp.js';
@@ -26,8 +24,6 @@ angular.module('compass', [
 ])
 .config(config)
 .service('storage', storage)
-.service('fileSystem', fileSystem)
 .service('passwordList', passwordList)
 .service('pgp', pgp)
-.controller('HomeController', HomeController)
-.controller('SettingsController', SettingsController);
+.controller('HomeController', HomeController);

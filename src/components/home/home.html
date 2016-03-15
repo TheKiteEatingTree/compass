@@ -1,7 +1,10 @@
-<tree-mendous nodes="vm.passwordList.passwords">
-    <div ng-repeat="item in nodes" tree-expand>
-        <span ng-show="item.isFile" ng-click="vm.decryptPassword(item)">{{item.name.slice(0, -4)}}</span>
-        <span ng-hide="item.isFile">{{item.entry.name}}</span>
-        <tree-branch ng-if="item.entry.isDirectory" nodes="item.files" ng-show="$expanded"></tree-branch>
+<div class="row">
+    <div class="col s12">
+        <ul>
+            <li ng-repeat="password in vm.passwords">
+                <span>{{password.name}}</span>
+                <span ng-if="password.files">{{password.files[0].name}} {{password.files[1].name}}</span>
+            </li>
+        </ul>
     </div>
-</tree-mendous>
+</div>

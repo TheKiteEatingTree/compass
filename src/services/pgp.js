@@ -4,20 +4,19 @@ import * as openpgp from 'openpgp';
 import Password from './../models/Password.js';
 
 export default class PGP {
-    constructor($q, storage, fileSystem) {
+    constructor($q, storage) {
         this.promise = $q;
         this.storage = storage;
-        this.fileSystem = fileSystem;
 
-        this.privateKey = this.storage.fetch('privateKey').then((result) => {
-            if (result !== null) {
-                return this.fileSystem.restoreEntry(result.privateKey);
-            }
-            return null;
-        }).catch((err) => {
-            console.error(err);
-            return null;
-        });
+        // this.privateKey = this.storage.fetch('privateKey').then((result) => {
+        //     if (result !== null) {
+        //         return this.fileSystem.restoreEntry(result.privateKey);
+        //     }
+        //     return null;
+        // }).catch((err) => {
+        //     console.error(err);
+        //     return null;
+        // });
     }
 
     decrypt(file) {
@@ -79,4 +78,4 @@ export default class PGP {
     }
 }
 
-PGP.$injects = ['$q', 'storage', 'fileSystem'];
+PGP.$injects = ['$q', 'storage'];
