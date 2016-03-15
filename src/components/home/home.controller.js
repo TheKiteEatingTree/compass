@@ -7,14 +7,15 @@ export default class HomeController {
         this.timeout = $timeout;
         this.pgp = pgp;
 
-        this.passwords = [];
+        this.root = {};
+        this.current = {};
 
         const port = chrome.runtime.connect('pnhaikohelnlfpmjgiajjlgliofccjdc');
         port.postMessage({cmd: 'sendFiles'});
         port.onMessage.addListener((msg) => {
             if (msg.cmd === 'sendFiles') {
-                console.log(msg.files);
-                this.passwords = msg.files;
+                this.root = msg.files;
+                this.current = this.root;
             }
         });
     }
@@ -33,6 +34,18 @@ export default class HomeController {
         clipboard.select();
         document.execCommand('cut');
         document.body.removeChild(clipboard);
+    }
+
+    goUp() {
+        this.current = this.current.up;
+    }
+
+    selectFile(file) {
+        if (file.files) {
+            const temp = this.current;
+            this.current = file;
+            this.current.up = temp;
+        }
     }
 }
 

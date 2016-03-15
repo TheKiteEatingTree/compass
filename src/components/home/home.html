@@ -1,11 +1,17 @@
 <div class="row">
     <div class="col s12">
         <ul class="collapsible">
-            <li ng-repeat="password in vm.passwords">
+            <li ng-show="vm.current.up" ng-click="vm.goUp()">
                 <div class="collapsible-header">
-                    <i ng-show="password.files" class="material-icons">folder</i>
-                    <i ng-hide="password.files" class="material-icons">lock</i>
-                    {{password.name}}
+                    <i class="material-icons">folder</i>
+                    ..
+                </div>
+            </li>
+            <li ng-repeat="file in vm.current.files" ng-click="vm.selectFile(file)">
+                <div class="collapsible-header">
+                    <i ng-show="file.files" class="material-icons">folder</i>
+                    <i ng-hide="file.files" class="material-icons">lock</i>
+                    {{file.name}}
                 </div>
             </li>
         </ul>
