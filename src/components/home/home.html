@@ -1,9 +1,12 @@
 <div class="row">
     <div class="col s12">
-        <ul>
+        <ul class="collapsible">
             <li ng-repeat="password in vm.passwords">
-                <span>{{password.name}}</span>
-                <span ng-if="password.files">{{password.files[0].name}} {{password.files[1].name}}</span>
+                <div class="collapsible-header">
+                    <i ng-show="password.files" class="material-icons">folder</i>
+                    <i ng-hide="password.files" class="material-icons">lock</i>
+                    {{password.name}}
+                </div>
             </li>
         </ul>
     </div>
