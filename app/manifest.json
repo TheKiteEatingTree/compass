@@ -10,6 +10,9 @@
         "default_icon": "news_action.png",
         "default_popup": "index.html"
     },
+    "background": {
+        "page": "background.html"
+    },
     "permissions": [
         "storage",
         "clipboardWrite"

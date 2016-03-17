@@ -7,7 +7,11 @@ export default function config($routeProvider) {
         template: require('./components/home/home.html'),
         controller: 'HomeController',
         controllerAs: 'vm'
+    }).when('/unlock', {
+        template: require('./components/unlock/unlock.html'),
+        controller: 'UnlockController',
+        controllerAs: 'vm'
     }).otherwise({
-        redirectTo: '/home'
+        redirectTo: '/unlock'
     });
 }

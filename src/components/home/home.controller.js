@@ -1,39 +1,47 @@
 'use strict';
 
-import Random from './../../services/Random.js';
-
 export default class HomeController {
-    constructor($timeout, pgp) {
-        this.timeout = $timeout;
-        this.pgp = pgp;
+    constructor($scope, style, north, bg) {
+        style.reset();
+        this.scope = $scope;
+        this.north = north;
+        this.bg = bg;
 
         this.root = {};
         this.current = {};
 
-        const port = chrome.runtime.connect('pnhaikohelnlfpmjgiajjlgliofccjdc');
-        port.postMessage({cmd: 'sendFiles'});
-        port.onMessage.addListener((msg) => {
-            if (msg.cmd === 'sendFiles') {
-                this.root = msg.files;
-                this.current = this.root;
+        this.scope.$on('sendFiles', (event, msg) => {
+            this.root = msg.files;
+            this.current = this.root;
+        });
+
+        this.scope.$on('decrypt', (event, msg) => {
+            if (!msg.error) {
+                this.bg.getBackgroundPage().then((bg) => {
+                    bg.copyPassword(msg.password.password);
+                    window.close();
+                });
             }
         });
+
+        this.north.sendFiles();
     }
 
-    decryptPassword(password) {
-        this.pgp.decrypt(password).then((password) => {
-            this.copy(password.password);
-            this.timeout(() => this.copy(Random.generateString()), 60 * 1000);
-        }).catch(err => console.error(err));
-    }
+    decrypt(file) {
+        console.log(file.name);
+        const prefixName = (current, name) => {
+            if (current.up) {
+                return prefixName(current.up, `${current.name}/${name}`);
+            }
+            return name;
+        };
 
-    copy(txt) {
-        const clipboard = document.createElement('textarea');
-        clipboard.value = txt;
-        document.body.appendChild(clipboard);
-        clipboard.select();
-        document.execCommand('cut');
-        document.body.removeChild(clipboard);
+        const name = prefixName(this.current, file.name);
+        console.log(name);
+        this.bg.getBackgroundPage().then((bg) => {
+            const password = bg.getPassword();
+            this.north.decrypt(name, password);
+        });
     }
 
     goUp() {
@@ -45,8 +53,10 @@ export default class HomeController {
             const temp = this.current;
             this.current = file;
             this.current.up = temp;
+        } else {
+            this.decrypt(file);
         }
     }
 }
 
-HomeController.$inject = ['$timeout', 'pgp'];
+HomeController.$inject = ['$scope', 'style', 'north', 'bg'];

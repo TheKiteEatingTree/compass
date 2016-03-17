@@ -1,11 +1,14 @@
 'use strict';
 
 module.exports = {
-    entry: "./src/app.js",
+    entry: {
+        app: "./src/app.js",
+        background: "./src/background.js"
+    },
     output: {
         path: __dirname + '/app/dist',
         publicPath: '/dist/',
-        filename: "bundle.js"
+        filename: "[name].bundle.js"
     },
     module: {
         loaders: [{
