@@ -1,10 +1,27 @@
 'use strict';
 
+import * as inject from './inject.js';
+
 export default class North {
-    constructor($rootScope) {
+    constructor($rootScope, tabs) {
         this.port = chrome.runtime.connect('pnhaikohelnlfpmjgiajjlgliofccjdc');
         this.port.onMessage.addListener((msg) => {
-            $rootScope.$apply(() => $rootScope.$broadcast(msg.cmd, msg));
+            if (msg.cmd === 'foundPassword') {
+                let user = '';
+                let password = '';
+                if (msg.user) {
+                    user = msg.user.replace(/\'/g, '\\\'');
+                }
+                if (msg.password) {
+                    password = msg.password.replace(/\'/g, '\\\'');
+                }
+
+                tabs.executeScript({
+                    code: inject.getCode(user, password)
+                });
+            } else {
+                $rootScope.$apply(() => $rootScope.$broadcast(msg.cmd, msg));
+            }
         });
     }
 
@@ -20,12 +37,13 @@ export default class North {
         this.port.postMessage({cmd: 'sendFiles'});
     }
 
-    testPassword(password) {
+    testPassword(password, url) {
         this.port.postMessage({
             cmd: 'testPassword',
-            password: password
+            password: password,
+            url: url
         });
     }
 }
 
-North.$injects = ['$rootScope'];
+North.$injects = ['$rootScope', 'tabs'];

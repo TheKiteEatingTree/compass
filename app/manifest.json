@@ -14,8 +14,8 @@
         "page": "background.html"
     },
     "permissions": [
-        "storage",
-        "clipboardWrite"
+        "clipboardWrite",
+        "activeTab"
     ],
     "manifest_version": 2
 }

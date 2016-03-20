@@ -17,6 +17,7 @@ import UnlockController from './components/unlock/unlock.controller.js';
 import style from './services/style.js';
 import bg from './services/bg.js';
 import north from './services/north.js';
+import tabs from './services/tabs.js';
 
 angular.module('compass', [
     ngRoute,
@@ -26,6 +27,7 @@ angular.module('compass', [
 .service('style', style)
 .service('bg', bg)
 .service('north', north)
+.service('tabs', tabs)
 .controller('AppController', AppController)
 .controller('UnlockController', UnlockController)
 .controller('HomeController', HomeController);

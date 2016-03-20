@@ -1,10 +1,11 @@
 'use strict';
 
 export default class HomeController {
-    constructor($scope, $location, style, bg, north) {
+    constructor($scope, $location, style, bg, north, tabs) {
         this.location = $location;
         this.bg = bg;
         this.north = north;
+        this.tabs = tabs;
 
         style.body = "cyan darken-1";
         style.nav = "no-shadow";
@@ -25,7 +26,9 @@ export default class HomeController {
 
     submit() {
         this.error = "";
-        this.north.testPassword(this.password);
+        this.tabs.getCurrent()
+            .then(tab => this.north.testPassword(this.password, tab.url))
+            .catch(() => this.north.testPassword(this.password));
     }
 
     testPasswordHandler(msg) {
@@ -43,4 +46,4 @@ export default class HomeController {
     }
 }
 
-HomeController.$inject = ['$scope', '$location', 'style', 'bg', 'north'];
+HomeController.$inject = ['$scope', '$location', 'style', 'bg', 'north', 'tabs'];
