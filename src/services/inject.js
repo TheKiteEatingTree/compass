@@ -22,7 +22,7 @@ return `
     }
 
     for (let i = 1; i < 4 && !button; i++) {
-        button = findButtonLoop(password, 1);
+        button = findButtonLoop(password, i);
     }
 
     if (button) {
@@ -95,7 +95,7 @@ return `
                 parent = parent.parentElement;
             }
         } else {
-            const user = findUser(document);
+            const user = findUser(document, true);
             if (user) {
                 return user;
             }
@@ -103,7 +103,7 @@ return `
         return null;
     }
 
-    function findUser(element) {
+    function findUser(element, strict) {
         let user = element.querySelector('input[type="email"]');
         if (user) {
             return user;
@@ -139,15 +139,17 @@ return `
             return user;
         }
 
-        user = search('name');
-        if (user) {
-            return user;
-        }
+        if (!strict) {
+            user = search('name');
+            if (user) {
+                return user;
+            }
 
-        for (let i = 0; i < inputs.length; i++) {
-            const input = inputs[i];
-            if (input.type === 'text') {
-                return input;
+            for (let i = 0; i < inputs.length; i++) {
+                const input = inputs[i];
+                if (input.type === 'text') {
+                    return input;
+                }
             }
         }
 
