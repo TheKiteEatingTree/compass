@@ -1,5 +1,3 @@
-export function getCode(user, password) {
-return `
 (function() {
     'use strict';
 
@@ -8,13 +6,11 @@ return `
     let password = null;
 
     password = document.querySelector('input[type="password"]');
-    if (password) {
-        password.value = '${password}';
-    }
 
     user = findUserLoop(password);
     if (user) {
-        user.value = '${user}';
+        user.focus();
+        document.execCommand('paste');
     }
 
     if (!password && !user) {
@@ -154,5 +150,3 @@ return `
         return null;
     }
 })();
-`;
-}

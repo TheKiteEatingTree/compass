@@ -1,6 +1,6 @@
 'use strict';
 
-import Random from './bg/Random.js';
+import Random from './utils/Random.js';
 
 window.copyPassword = copyPassword;
 window.getPassword = getPassword;
@@ -27,7 +27,7 @@ function copyPassword(txt) {
     copyTimeout = window.setTimeout(() => {
         copyTimeout = null;
         copy(Random.generateString());
-    }, 45 * 1000);
+    }, 30 * 1000);
 }
 
 function getPassword() {

@@ -6,11 +6,13 @@
         <script src="dist/app.bundle.js"></script>
     </head>
     <body ng-controller="AppController as vm" style="min-width: 300px; font-size: 15px;" ng-class="[vm.style.body]">
-        <nav class="cyan darken-1" ng-class="[vm.style.nav]">
-            <div class="nav-wrapper">
-                <span class="brand-logo center">compass</span>
-            </div>
-        </nav>
+        <div class="navbar-fixed">
+            <nav class="cyan darken-1" ng-class="[vm.style.nav]">
+                <div class="nav-wrapper">
+                    <span class="brand-logo center">compass</span>
+                </div>
+            </nav>
+        </div>
         <div class="container">
             <ng-view></ng-view>
         </div>

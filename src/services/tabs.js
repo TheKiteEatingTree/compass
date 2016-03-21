@@ -25,7 +25,6 @@ export default class Tabs {
                 if (chrome.runtime.lastError) {
                     return reject(chrome.runtime.lastError);
                 }
-                console.log(results);
                 return resolve(results);
             });
         });
