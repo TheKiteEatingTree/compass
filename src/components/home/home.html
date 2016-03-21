@@ -1,19 +1,15 @@
 <div class="row" style="height:500px; overflow-y: auto; margin-bottom: 0;">
     <div class="col s12">
-        <ul class="collapsible no-select" style="margin: 1rem 0 1rem 0;">
-            <li ng-show="vm.current.up" ng-click="vm.goUp()">
-                <div class="collapsible-header">
-                    <i class="material-icons">arrow_upward</i>
-                    ..
-                </div>
-            </li>
-            <li ng-repeat="file in vm.current.files" ng-click="vm.selectFile(file)">
-                <div class="collapsible-header">
-                    <i ng-show="file.files" class="material-icons">folder</i>
-                    <i ng-hide="file.files" class="material-icons">lock</i>
-                    {{file.name}}
-                </div>
-            </li>
-        </ul>
+            <ul class="collection z-depth-1 no-select" style="margin: 1rem 0 1rem 0;">
+                <li class="collection-item" ng-show="vm.current.up" ng-click="vm.goUp()">
+                        <i class="material-icons left">arrow_upward</i>
+                        <span>..</span>
+                </li>
+                <li class="collection-item" ng-repeat="file in vm.current.files" ng-click="vm.selectFile(file)">
+                        <i ng-show="file.files" class="material-icons left">folder</i>
+                        <span class="ellipsis">{{file.name}}</span>
+                        <i ng-hide="file.files" class="material-icons right" ng-click="vm.copyPassword($event, file)">content_copy</i>
+                </li>
+            </ul>
     </div>
 </div>

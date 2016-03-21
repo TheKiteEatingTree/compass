@@ -13,6 +13,7 @@ import config from './app.config.js';
 import AppController from './app.controller.js';
 import HomeController from './components/home/home.controller.js';
 import UnlockController from './components/unlock/unlock.controller.js';
+import PasswordController from './components/password/password.controller.js';
 
 import style from './services/style.js';
 import bg from './services/bg.js';
@@ -30,4 +31,5 @@ angular.module('compass', [
 .service('tabs', tabs)
 .controller('AppController', AppController)
 .controller('UnlockController', UnlockController)
+.controller('PasswordController', PasswordController)
 .controller('HomeController', HomeController);

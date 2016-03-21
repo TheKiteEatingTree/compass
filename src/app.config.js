@@ -11,6 +11,10 @@ export default function config($routeProvider) {
         template: require('./components/unlock/unlock.html'),
         controller: 'UnlockController',
         controllerAs: 'vm'
+    }).when('/password/:file', {
+        template: require('./components/password/password.html'),
+        controller: 'PasswordController',
+        controllerAs: 'vm'
     }).otherwise({
         redirectTo: '/unlock'
     });

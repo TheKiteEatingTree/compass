@@ -1,9 +1,10 @@
 'use strict';
 
 export default class HomeController {
-    constructor($scope, style, north, bg) {
+    constructor($scope, $location, style, north, bg) {
         style.reset();
         this.scope = $scope;
+        this.location = $location;
         this.north = north;
         this.bg = bg;
 
@@ -27,15 +28,9 @@ export default class HomeController {
         this.north.sendFiles();
     }
 
-    decrypt(file) {
-        const prefixName = (current, name) => {
-            if (current.up) {
-                return prefixName(current.up, `${current.name}/${name}`);
-            }
-            return name;
-        };
-
-        const name = prefixName(this.current, file.name);
+    copyPassword(evt, file) {
+        evt.stopPropagation();
+        const name = this.prefixName(this.current, file.name);
         this.bg.getBackgroundPage().then((bg) => {
             const password = bg.getPassword();
             this.north.decrypt(name, password);
@@ -46,15 +41,23 @@ export default class HomeController {
         this.current = this.current.up;
     }
 
+    prefixName(current, name) {
+        if (current.up) {
+            return this.prefixName(current.up, `${current.name}/${name}`);
+        }
+        return name;
+    }
+
     selectFile(file) {
         if (file.files) {
             const temp = this.current;
             this.current = file;
             this.current.up = temp;
         } else {
-            this.decrypt(file);
+            const name = this.prefixName(this.current, file.name);
+            this.location.path(`/password/${name}`);
         }
     }
 }
 
-HomeController.$inject = ['$scope', 'style', 'north', 'bg'];
+HomeController.$inject = ['$scope', '$location', 'style', 'north', 'bg'];

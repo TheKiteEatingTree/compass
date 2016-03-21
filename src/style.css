@@ -38,3 +38,27 @@ input[type=password]:focus:not([readonly]) {
     /* non-prefixed version, currently
     not supported by any browser */
 }
+.ellipsis {
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+.collection-item {
+    display: flex;
+    cursor: pointer;
+}
+
+.collection-item span {
+    line-height: 1.75rem;
+    flex-grow: 1;
+}
+
+.collection-item .left {
+    text-align: center;
+    margin-right: 10px;
+}
+
+.collection-item .right {
+    text-align: center;
+    margin-left: 10px;
+}
