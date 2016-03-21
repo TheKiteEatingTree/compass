@@ -1,66 +1,118 @@
 export function getCode(user, password) {
-// Keyboard Event Code from StackOverflow user Orwellophile:
-// http://stackoverflow.com/a/10520017
 return `
 (function() {
     'use strict';
 
-    let form = null;
+    let button = null;
     let user = null;
     let password = null;
 
-    form = findLoginForm();
-    if (!form) {
-        form = document;
+    password = document.querySelector('input[type="password"]');
+    if (password) {
+        password.value = '${password}';
     }
 
-    password = form.querySelector('input[type="password"]');
-
-    user = findUser(form);
-
+    user = findUserLoop(password);
     if (user) {
         user.value = '${user}';
     }
-    password.value = '${password}';
-    
-    const button = findButton(form);
-    if (button) {
-        button.click();
-    } else {
-        if (form !== document) {
-            form.submit();
-        }
-    }
-    
-    function findButton(form) {
-        const submit = form.querySelector('input[type="submit"]');
-        if (submit) {
-            return submit;
-        }
-        
-        const button = form.querySelector('button');
-        if (button) {
-            return button;
-        }
-        
-        const a = form.querySelector('a');
-        return a;
+
+    if (!password && !user) {
+        return;
     }
 
-    function findUser(form) {
-        let user = form.querySelector('input[type="email"]');
+    for (let i = 1; i < 4 && !button; i++) {
+        button = findButtonLoop(password, 1);
+    }
+
+    if (button) {
+        button.click();
+    }
+
+    return;
+
+    function findButtonLoop(password, level) {
+        if (password) {
+            let parent = password.parentElement;
+            while (parent) {
+                const button = findButton(parent, level);
+                if (button) {
+                    return button;
+                }
+                parent = parent.parentElement;
+            }
+        } else {
+            const button = findButton(document, level);
+            if (button) {
+                return button;
+            }
+        }
+        return null;
+    }
+
+    function findButton(element, level) {
+        if (level === 1) {
+            const submit = element.querySelector('input[type="submit"]');
+            if (submit) {
+                return submit;
+            }
+
+            let button = element.querySelector('button[type="submit"]');
+            if (button) {
+                return button;
+            }
+
+            button = element.querySelector('button');
+            if (button && button.type === 'submit') {
+                return button;
+            }
+        }
+
+        if (level === 2) {
+            const button = element.querySelector('button');
+            if (button) {
+                return button;
+            }
+        }
+
+
+        if (level === 3) {
+            const a = element.querySelector('a');
+            return a;
+        }
+
+        return null;
+    }
+
+    function findUserLoop(password) {
+        if (password) {
+            let parent = password.parentElement;
+            while (parent) {
+                const user = findUser(parent);
+                if (user) {
+                    return user;
+                }
+                parent = parent.parentElement;
+            }
+        } else {
+            const user = findUser(document);
+            if (user) {
+                return user;
+            }
+        }
+        return null;
+    }
+
+    function findUser(element) {
+        let user = element.querySelector('input[type="email"]');
         if (user) {
             return user;
         }
 
-        let inputs = form.querySelectorAll('input');
+        let inputs = element.querySelectorAll('input');
 
         if (!inputs.length) {
             return null;
-        }
-
-        if (inputs.length === 1) {
-            return inputs[0];
         }
 
         const search = function(term) {
@@ -92,10 +144,17 @@ return `
             return user;
         }
 
-        return inputs[0];
+        for (let i = 0; i < inputs.length; i++) {
+            const input = inputs[i];
+            if (input.type === 'text') {
+                return input;
+            }
+        }
+
+        return null;
     }
 
-    function findLoginForm() {
+    function findFormWithPassword() {
         const passForms = [];
         const forms = document.querySelectorAll('form');
         for (let i = 0; i < forms.length; i++) {
@@ -106,14 +165,11 @@ return `
         }
 
         if (passForms.length > 0) {
-            if (passForms.length === 1) {
-                return passForms[0];
-            }
-
-            for (let i = 0; i < passForms.length; i++) {
-                if (passForms[i].innerHTML) {}
-            }
+            // TODO: potentially come up with a way to handle a page with both login and register forms
+            return passForms[0];
         }
+
+        return null;
     }
 })();
 `;

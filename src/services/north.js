@@ -3,19 +3,25 @@
 import * as inject from './inject.js';
 
 export default class North {
-    constructor($rootScope, tabs) {
+    constructor($rootScope, tabs, bg) {
         this.port = chrome.runtime.connect('pnhaikohelnlfpmjgiajjlgliofccjdc');
         this.port.onMessage.addListener((msg) => {
             if (msg.cmd === 'foundPassword') {
                 let user = '';
                 let password = '';
-                if (msg.user) {
-                    user = msg.user.replace(/\'/g, '\\\'');
+                if (msg.password.user) {
+                    user = msg.password.user.replace(/\'/g, '\\\'');
                 }
-                if (msg.password) {
-                    password = msg.password.replace(/\'/g, '\\\'');
+                if (msg.password.password) {
+                    password = msg.password.password.replace(/\'/g, '\\\'');
                 }
+                // this.bg.getBackgroundPage().then((bg) => {
+                //     bg.copyPassword(msg.password.password);
+                // });
 
+                // tabs.executeScript({
+                //     file: 'injectPassword.js'
+                // });
                 tabs.executeScript({
                     code: inject.getCode(user, password)
                 });
@@ -46,4 +52,4 @@ export default class North {
     }
 }
 
-North.$injects = ['$rootScope', 'tabs'];
+North.$injects = ['$rootScope', 'tabs', 'bg'];

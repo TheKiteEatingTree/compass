@@ -28,7 +28,6 @@ export default class HomeController {
     }
 
     decrypt(file) {
-        console.log(file.name);
         const prefixName = (current, name) => {
             if (current.up) {
                 return prefixName(current.up, `${current.name}/${name}`);
@@ -37,7 +36,6 @@ export default class HomeController {
         };
 
         const name = prefixName(this.current, file.name);
-        console.log(name);
         this.bg.getBackgroundPage().then((bg) => {
             const password = bg.getPassword();
             this.north.decrypt(name, password);
