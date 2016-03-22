@@ -1,11 +1,15 @@
 'use strict';
 
 import 'material-design-icons/iconfont/material-icons.css';
-import 'materialize-css/dist/css/materialize.min.css';
+import 'angular-material/angular-material.min.css';
 import './style.css';
 
 import angular from 'angular';
 import ngRoute from 'angular-route';
+import ngAnimate from 'angular-animate';
+import 'angular-aria';
+import ngMaterial from 'angular-material';
+
 
 import config from './app.config.js';
 
@@ -20,7 +24,9 @@ import north from './services/north.js';
 import tabs from './services/tabs.js';
 
 angular.module('compass', [
-    ngRoute
+    ngRoute,
+    ngAnimate,
+    ngMaterial
 ])
 .config(config)
 .service('style', style)

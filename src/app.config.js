@@ -1,8 +1,8 @@
 'use strict';
 
-config.$inject = ['$routeProvider'];
+config.$inject = ['$routeProvider', '$mdThemingProvider'];
 
-export default function config($routeProvider) {
+export default function config($routeProvider, $mdThemingProvider) {
     $routeProvider.when('/home', {
         template: require('./components/home/home.html'),
         controller: 'HomeController',
@@ -18,4 +18,9 @@ export default function config($routeProvider) {
     }).otherwise({
         redirectTo: '/unlock'
     });
+
+    $mdThemingProvider.theme('default')
+        .primaryPalette('cyan', {
+            'default': '500'
+        });
 }

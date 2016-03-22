@@ -3,6 +3,8 @@
 export default class HomeController {
     constructor($scope, $location, style, north, bg) {
         style.reset();
+        style.addHeaderShadow();
+        
         this.scope = $scope;
         this.location = $location;
         this.north = north;
