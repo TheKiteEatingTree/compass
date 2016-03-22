@@ -8,20 +8,34 @@
     margin-top: 10px;
     font-size: 1rem;
 }
-.password-card {
+.input-card {
     width: 100%;
-    padding: 5px;
+    padding: 0;
 }
-input[type="password"] {
+.input-card input[type="password"], .input-card input[type="text"] {
     margin: 0;
     border: none;
     box-shadow: none;
     text-align: center;
     font-size: 1.5rem;
+    padding: 5px;
 }
-input[type=password]:focus:not([readonly]) {
+.input-card textarea {
+    padding: 0;
+    margin: 5px;
     border: none;
     box-shadow: none;
+    font-size: 1.2rem;
+    overflow: auto;
+}
+.input-card input[type="password"]:focus:not([readonly]), .input-card input[type="text"]:focus:not([readonly]), .input-card textarea:focus:not([readonly]) {
+    border: none;
+    box-shadow: none;
+}
+.input-card-title {
+    color: white;
+    font-size: 1.2rem;
+    margin-bottom: -7px;
 }
 .no-select {
     -webkit-touch-callout: none;

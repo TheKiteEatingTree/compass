@@ -6,7 +6,6 @@ import './style.css';
 
 import angular from 'angular';
 import ngRoute from 'angular-route';
-import ngAnimate from 'angular-animate';
 
 import config from './app.config.js';
 
@@ -21,8 +20,7 @@ import north from './services/north.js';
 import tabs from './services/tabs.js';
 
 angular.module('compass', [
-    ngRoute,
-    ngAnimate
+    ngRoute
 ])
 .config(config)
 .service('style', style)

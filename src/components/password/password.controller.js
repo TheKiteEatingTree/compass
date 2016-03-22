@@ -2,17 +2,18 @@
 
 export default class PasswordController {
     constructor($scope, $routeParams, style, north, bg) {
-        style.reset();
         this.scope = $scope;
         this.north = north;
         this.bg = bg;
+
+        style.body = "cyan darken-1";
+        style.nav = "no-shadow";
 
         this.scope.$on('decrypt', (event, msg) => {
             if (!msg.error) {
                 this.password = msg.password;
             }
         });
-        console.log($routeParams.file);
         this.decrypt($routeParams.file);
     }
 
