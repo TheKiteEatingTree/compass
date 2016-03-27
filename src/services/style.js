@@ -10,6 +10,14 @@ export default class Style {
         this.body = "";
         this.nav = "";
     }
+
+    addHeaderShadow() {
+        this.nav = "md-whiteframe-4dp";
+    }
+
+    cyanBg() {
+        this.body = "cyan-bg";
+    }
 }
 
 Style.$injects = [];

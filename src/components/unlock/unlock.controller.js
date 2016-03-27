@@ -2,13 +2,12 @@
 
 export default class HomeController {
     constructor($scope, $location, style, bg, north, tabs) {
+        style.reset();
+        style.cyanBg();
         this.location = $location;
         this.bg = bg;
         this.north = north;
         this.tabs = tabs;
-
-        style.body = "cyan darken-1";
-        style.nav = "no-shadow";
 
         this.password = "";
         this.error = "";
