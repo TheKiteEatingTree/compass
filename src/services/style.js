@@ -2,13 +2,14 @@
 
 export default class Style {
     constructor() {
-        this.body = "";
-        this.nav = "";
+        this.reset();
     }
 
     reset() {
         this.body = "";
         this.nav = "";
+        this.leftButton = false;
+        this.rightButton = false;
     }
 
     addHeaderShadow() {
@@ -17,6 +18,13 @@ export default class Style {
 
     cyanBg() {
         this.body = "cyan-bg";
+    }
+
+    showLeftButton(icon, handler) {
+        this.leftButton = {
+            icon,
+            handler
+        };
     }
 }
 

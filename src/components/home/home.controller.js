@@ -4,7 +4,7 @@ export default class HomeController {
     constructor($scope, $location, style, north, bg) {
         style.reset();
         style.addHeaderShadow();
-        
+
         this.scope = $scope;
         this.location = $location;
         this.north = north;
@@ -57,7 +57,7 @@ export default class HomeController {
             this.current.up = temp;
         } else {
             const name = this.prefixName(this.current, file.name);
-            this.location.path(`/password/${name}`);
+            this.location.path('/password').search('file', name);
         }
     }
 }

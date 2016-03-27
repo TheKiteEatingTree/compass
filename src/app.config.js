@@ -11,7 +11,7 @@ export default function config($routeProvider, $mdThemingProvider) {
         template: require('./components/unlock/unlock.html'),
         controller: 'UnlockController',
         controllerAs: 'vm'
-    }).when('/password/:file', {
+    }).when('/password', {
         template: require('./components/password/password.html'),
         controller: 'PasswordController',
         controllerAs: 'vm'

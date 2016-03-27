@@ -40,12 +40,21 @@ function getPassword() {
 
 function savePassword(_password) {
     password = _password;
+    if (masterTimeout) {
+        window.clearTimeout(masterTimeout);
+    }
     startTimeout();
 }
 
 function startTimeout() {
     masterTimeout = window.setTimeout(() => {
-        password = "";
-        masterTimeout = null;
+        const views = chrome.extension.getViews({type: 'popup'});
+        if (views.length) {
+            window.clearTimeout(masterTimeout);
+            startTimeout();
+        } else {
+            password = "";
+            masterTimeout = null;
+        }
     }, 60 * 1000);
 }
