@@ -20,8 +20,25 @@ export default class Style {
         this.body = "cyan-bg";
     }
 
-    showLeftButton(icon, handler) {
+    hideLeftButton() {
+        this.leftButton = false;
+    }
+
+    hideRightButton() {
+        this.rightButton = false;
+    }
+
+    showLeftButton(aria, icon, handler) {
         this.leftButton = {
+            aria,
+            icon,
+            handler
+        };
+    }
+
+    showRightButton(aria, icon, handler) {
+        this.rightButton = {
+            aria,
             icon,
             handler
         };

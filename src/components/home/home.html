@@ -1,5 +1,5 @@
-<div layout="column" style="max-height:500px; overflow-y: auto; margin-bottom: 0; padding: 15px 10px;">
-    <div flex class="md-whiteframe-4dp">
+<div layout="column" style="max-height:500px; overflow-y: auto; margin-bottom: 0; padding: 15px 10px; position: relative;">
+    <div flex class="md-whiteframe-4dp" style="margin-bottom: 60px;">
         <md-list class="password-list">
             <md-list-item ng-show="vm.current.up" ng-click="vm.goUp()">
                 <md-icon>arrow_upward</md-icon>
@@ -15,3 +15,6 @@
         </md-list>
     </div>
 </div>
+<md-button class="md-fab md-primary bottom-right" ng-click="vm.addPassword($event)" aria-label="FAB">
+    <md-icon style="color: white;">add</md-icon>
+</md-button>

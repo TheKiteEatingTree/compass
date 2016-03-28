@@ -50,9 +50,17 @@ export default class North {
 
     decrypt(name, password) {
         this.port.postMessage({
-            cmd: 'decrypt',
-            name: name,
-            password: password
+            name,
+            password,
+            cmd: 'decrypt'
+        });
+    }
+
+    encrypt(name, content) {
+        this.port.postMessage({
+            name,
+            content,
+            cmd: 'encrypt'
         });
     }
 

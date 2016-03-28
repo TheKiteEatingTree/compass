@@ -1,30 +1,44 @@
 'use strict';
 
 export default class PasswordController {
-    constructor($scope, $routeParams, style, north, bg, $location) {
+    constructor($scope, $routeParams, style, north, bg, $location, $mdToast) {
         this.style = style;
         style.reset();
         style.addHeaderShadow();
         this.showBackButton();
 
+        this.loading = true;
         this.scope = $scope;
         this.north = north;
         this.bg = bg;
         this.title = $routeParams.file;
         this.location = $location;
+        this.toast = $mdToast;
 
         this.scope.$on('decrypt', (event, msg) => {
-            if (!msg.error) {
-                this.password = msg.password;
-                this.scope.passwordForm.$setPristine();
-                this.showBackButton();
+            if (msg.error) {
+                return this.toast.show(this.toast.simple().textContent(msg.error));
             }
+            this.password = msg.password;
+            this.reset();
+        });
+
+        this.scope.$on('encrypt', (event, msg) => {
+            if (msg.error) {
+                return this.toast.show(this.toast.simple().textContent(msg.error));
+            }
+            this.reset();
         });
 
         this.scope.$watch('passwordForm.$dirty', (dirty) => {
             if (dirty) {
-                this.style.showLeftButton('clear', () => {
+                this.style.showLeftButton('Cancel', 'clear', () => {
+                    this.loading = true;
                     this.decrypt($routeParams.file);
+                });
+                this.style.showRightButton('Save', 'check', () => {
+                    this.loading = true;
+                    this.north.encrypt($routeParams.file, this.password);
                 });
             }
         });
@@ -32,8 +46,15 @@ export default class PasswordController {
         this.decrypt($routeParams.file);
     }
 
+    reset() {
+        this.scope.passwordForm.$setPristine();
+        this.showBackButton();
+        this.style.hideRightButton();
+        this.loading = false;
+    }
+
     showBackButton() {
-        this.style.showLeftButton('arrow_back', () => {
+        this.style.showLeftButton('Back', 'arrow_back', () => {
             this.location.path('/home');
         });
     }
@@ -46,4 +67,4 @@ export default class PasswordController {
     }
 }
 
-PasswordController.$inject = ['$scope', '$routeParams', 'style', 'north', 'bg', '$location'];
+PasswordController.$inject = ['$scope', '$routeParams', 'style', 'north', 'bg', '$location', '$mdToast'];

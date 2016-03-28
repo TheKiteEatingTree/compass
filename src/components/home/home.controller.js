@@ -1,7 +1,7 @@
 'use strict';
 
 export default class HomeController {
-    constructor($scope, $location, style, north, bg) {
+    constructor($scope, $location, style, north, bg, $mdDialog) {
         style.reset();
         style.addHeaderShadow();
 
@@ -9,6 +9,7 @@ export default class HomeController {
         this.location = $location;
         this.north = north;
         this.bg = bg;
+        this.dialog = $mdDialog;
 
         this.root = {};
         this.current = {};
@@ -28,6 +29,23 @@ export default class HomeController {
         });
 
         this.north.sendFiles();
+    }
+
+    addPassword(ev) {
+        const confirm = this.dialog.prompt()
+            .title('New Password')
+            .textContent('Enter a password file name.  Use \'/\' to create folders')
+            .placeholder('amazon')
+            .ariaLabel('Password file name')
+            .targetEvent(ev)
+            .ok('Create')
+            .cancel('Cancel');
+
+        this.dialog.show(confirm).then(function(result) {
+            console.log(result);
+        }, function() {
+            console.log('canceled?');
+        });
     }
 
     copyPassword(evt, file) {
@@ -62,4 +80,4 @@ export default class HomeController {
     }
 }
 
-HomeController.$inject = ['$scope', '$location', 'style', 'north', 'bg'];
+HomeController.$inject = ['$scope', '$location', 'style', 'north', 'bg', '$mdDialog'];

@@ -9,13 +9,13 @@
         <div layout="column">
             <md-toolbar ng-class="[vm.style.nav]">
                 <div class="md-toolbar-tools">
-                    <md-button class="md-icon-button" aria-label="Back" ng-click="vm.style.leftButton.handler()" ng-show="vm.style.leftButton">
+                    <md-button class="md-icon-button" aria-label="{{vm.style.leftButton.aria}}" ng-click="vm.style.leftButton.handler()" ng-if="vm.style.leftButton">
                         <md-icon style="color: white;">{{vm.style.leftButton.icon}}</md-icon>
                     </md-button>
                     <span class="md-display-1 title" flex>compass</span>
-                    <div class="icon-button-spacer" ng-show="vm.style.leftButton && !vm.style.rightButton"></div>
-                    <md-button class="md-icon-button" aria-label="Back" ng-show="vm.style.rightButton">
-                        <md-icon style="color: white;">arrow_back</md-icon>
+                    <div class="icon-button-spacer" ng-if="vm.style.leftButton && !vm.style.rightButton"></div>
+                    <md-button class="md-icon-button" aria-label="{{vm.style.rightButton.aria}}" ng-click="vm.style.rightButton.handler()" ng-if="vm.style.rightButton">
+                        <md-icon style="color: white;">{{vm.style.rightButton.icon}}</md-icon>
                     </md-button>
                 </div>
             </md-toolbar>
