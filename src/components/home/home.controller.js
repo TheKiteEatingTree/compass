@@ -1,5 +1,7 @@
 'use strict';
 
+import angular from 'angular';
+
 export default class HomeController {
     constructor($scope, $location, style, north, bg, $mdDialog) {
         style.reset();
@@ -32,19 +34,22 @@ export default class HomeController {
     }
 
     addPassword(ev) {
-        const confirm = this.dialog.prompt()
-            .title('New Password')
-            .textContent('Enter a password file name.  Use \'/\' to create folders')
-            .placeholder('amazon')
-            .ariaLabel('Password file name')
-            .targetEvent(ev)
-            .ok('Create')
-            .cancel('Cancel');
-
-        this.dialog.show(confirm).then(function(result) {
-            console.log(result);
-        }, function() {
-            console.log('canceled?');
+        this.dialog.show({
+            controller: 'NewPasswordController',
+            controllerAs: 'vm',
+            template: require('./../password/new-password.html'),
+            parent: angular.element(document.body),
+            targetEvent: ev,
+            locals: {
+                filename: this.prefixName(this.current)
+            },
+            onComplete: function() {
+                document.getElementById('filename').focus();
+            }
+        }).then((filename) => {
+            console.log(filename);
+        }).catch(() => {
+            console.log('canceled');
         });
     }
 
@@ -61,7 +66,7 @@ export default class HomeController {
         this.current = this.current.up;
     }
 
-    prefixName(current, name) {
+    prefixName(current, name = '') {
         if (current.up) {
             return this.prefixName(current.up, `${current.name}/${name}`);
         }
