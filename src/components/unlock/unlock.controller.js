@@ -11,7 +11,6 @@ export default class HomeController {
 
         this.password = "";
         this.error = "";
-        document.getElementById('password').focus();
 
         $scope.$on('testPassword', (event, msg) => this.testPasswordHandler(msg));
 

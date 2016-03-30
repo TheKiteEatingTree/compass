@@ -48,6 +48,13 @@ export default class North {
         });
     }
 
+    create(name) {
+        this.port.postMessage({
+            name,
+            cmd: 'create'
+        });
+    }
+
     decrypt(name, password) {
         this.port.postMessage({
             name,

@@ -42,14 +42,9 @@ export default class HomeController {
             targetEvent: ev,
             locals: {
                 filename: this.prefixName(this.current)
-            },
-            onComplete: function() {
-                document.getElementById('filename').focus();
             }
-        }).then((filename) => {
-            console.log(filename);
-        }).catch(() => {
-            console.log('canceled');
+        }).then((name) => {
+            this.location.path('/password').search('file', name);
         });
     }
 
