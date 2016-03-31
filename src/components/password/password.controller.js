@@ -17,7 +17,7 @@ export default class PasswordController {
 
         this.scope.$on('decrypt', (event, msg) => {
             if (msg.error) {
-                return this.toast.show(this.toast.simple().textContent(msg.error));
+                return this.toast.showSimple(msg.error);
             }
             this.password = msg.password;
             this.reset();
@@ -25,7 +25,7 @@ export default class PasswordController {
 
         this.scope.$on('encrypt', (event, msg) => {
             if (msg.error) {
-                return this.toast.show(this.toast.simple().textContent(msg.error));
+                return this.toast.showSimple(msg.error);
             }
             this.reset();
         });

@@ -36,10 +36,14 @@ function loginBySettingValue(tabs, msg) {
 }
 
 export default class North {
-    constructor($rootScope, tabs, bg) {
+    constructor($rootScope, tabs, bg, $mdToast) {
+        this.toast = $mdToast;
         this.port = chrome.runtime.connect('pnhaikohelnlfpmjgiajjlgliofccjdc');
         this.port.onMessage.addListener((msg) => {
             if (msg.cmd === 'foundPassword') {
+                if (msg.error) {
+                    return this.toast.showSimple(msg.error);
+                }
                 // loginByPasting(bg, tabs, msg);
                 loginBySettingValue(tabs, msg);
             } else {
@@ -84,4 +88,4 @@ export default class North {
     }
 }
 
-North.$injects = ['$rootScope', 'tabs', 'bg'];
+North.$injects = ['$rootScope', 'tabs', 'bg', '$mdToast'];
