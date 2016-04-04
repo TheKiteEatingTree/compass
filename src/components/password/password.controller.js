@@ -15,6 +15,8 @@ export default class PasswordController {
         this.location = $location;
         this.toast = $mdToast;
 
+        this.showPassword = false;
+
         this.scope.$on('decrypt', (event, msg) => {
             if (msg.error) {
                 return this.toast.showSimple(msg.error);
@@ -46,10 +48,23 @@ export default class PasswordController {
         this.decrypt($routeParams.file);
     }
 
+    copyPassword() {
+        this.bg.getBackgroundPage().then((bg) => {
+            bg.copyPassword(this.password.password);
+        });
+    }
+
+    decrypt(name) {
+        this.bg.getBackgroundPage().then((bg) => {
+            const password = bg.getPassword();
+            this.north.decrypt(name, password);
+        });
+    }
+
     reset() {
         this.scope.passwordForm.$setPristine();
         this.showBackButton();
-        this.style.hideRightButton();
+        this.showMoreButton();
         this.loading = false;
     }
 
@@ -59,10 +74,9 @@ export default class PasswordController {
         });
     }
 
-    decrypt(name) {
-        this.bg.getBackgroundPage().then((bg) => {
-            const password = bg.getPassword();
-            this.north.decrypt(name, password);
+    showMoreButton() {
+        this.style.showRightButton('More', 'more_vert', () => {
+            this.location.path('/home');
         });
     }
 }
