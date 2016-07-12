@@ -1,20 +1,18 @@
 <div layout="column" style="max-height:500px; overflow-y: auto; margin-bottom: 0; padding: 15px 10px; position: relative;">
-    <div flex class="md-whiteframe-4dp" style="margin-bottom: 60px;">
-        <md-list class="password-list">
-            <md-list-item ng-show="vm.current.up" ng-click="vm.goUp()">
-                <md-icon>arrow_upward</md-icon>
-                <p>..</p>
-            </md-list-item>
-            <md-divider ng-show="vm.current.up"></md-divider>
-            <md-list-item ng-repeat-start="file in vm.current.files" ng-click="vm.selectFile(file)">
-                <md-icon ng-if="file.files">folder</md-icon>
-                <p ng-if="file.files" class="ellipsis">{{file.name}}</p>
-                <p ng-if="!file.files" class="ellipsis">{{file.name.slice(0, -4)}}</P>
-                <md-icon ng-if="!file.files" ng-click="vm.copyPassword($event, file)">content_copy</md-icon>
-            </md-list-item>
-            <md-divider ng-hide="$last" ng-repeat-end></md-divider>
-        </md-list>
-    </div>
+    <md-list class="password-list md-whiteframe-4dp" style="margin-bottom: 60px;">
+        <md-list-item ng-show="vm.current.up" ng-click="vm.goUp()">
+            <md-icon>arrow_upward</md-icon>
+            <p>..</p>
+        </md-list-item>
+        <md-divider ng-show="vm.current.up"></md-divider>
+        <md-list-item ng-repeat-start="file in vm.current.files" ng-click="vm.selectFile(file)">
+            <md-icon ng-if="file.files">folder</md-icon>
+            <p ng-if="file.files" class="ellipsis">{{file.name}}</p>
+            <p ng-if="!file.files" class="ellipsis">{{file.name.slice(0, -4)}}</P>
+            <md-icon ng-if="!file.files" ng-click="vm.copyPassword($event, file)">content_copy</md-icon>
+        </md-list-item>
+        <md-divider ng-hide="$last" ng-repeat-end></md-divider>
+    </md-list>
 </div>
 <md-button class="md-fab md-primary bottom-right" ng-click="vm.addPassword($event)" aria-label="FAB">
     <md-icon style="color: white;">add</md-icon>
