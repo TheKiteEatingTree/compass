@@ -11,7 +11,7 @@ export default class PasswordController {
         this.scope = $scope;
         this.north = north;
         this.bg = bg;
-        this.title = $routeParams.file;
+        this.title = $routeParams.file.slice(0, -4);
         this.location = $location;
         this.toast = $mdToast;
 

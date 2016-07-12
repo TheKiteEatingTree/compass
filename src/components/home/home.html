@@ -7,9 +7,10 @@
             </md-list-item>
             <md-divider ng-show="vm.current.up"></md-divider>
             <md-list-item ng-repeat-start="file in vm.current.files" ng-click="vm.selectFile(file)">
-                <md-icon ng-show="file.files">folder</md-icon>
-                <p class="ellipsis">{{file.name}}</P>
-                <md-icon ng-hide="file.files" ng-click="vm.copyPassword($event, file)">content_copy</md-icon>
+                <md-icon ng-if="file.files">folder</md-icon>
+                <p ng-if="file.files" class="ellipsis">{{file.name}}</p>
+                <p ng-if="!file.files" class="ellipsis">{{file.name.slice(0, -4)}}</P>
+                <md-icon ng-if="!file.files" ng-click="vm.copyPassword($event, file)">content_copy</md-icon>
             </md-list-item>
             <md-divider ng-hide="$last" ng-repeat-end></md-divider>
         </md-list>
