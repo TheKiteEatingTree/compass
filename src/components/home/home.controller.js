@@ -6,6 +6,12 @@ export default class HomeController {
     constructor($scope, $location, style, north, bg, $mdDialog) {
         style.reset();
         style.addHeaderShadow();
+        style.showRightButton('Refresh URLs', 'refresh', () => {
+            this.bg.getBackgroundPage().then((bg) => {
+                const password = bg.getPassword();
+                this.north.refresh(password);
+            });
+        });
 
         this.scope = $scope;
         this.location = $location;
