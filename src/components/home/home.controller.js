@@ -44,7 +44,7 @@ export default class HomeController {
                 filename: this.prefixName(this.current)
             }
         }).then((name) => {
-            this.location.path('/password').search('file', name);
+            this.location.path('/password').search('file', `${name}.gpg`);
         });
     }
 
