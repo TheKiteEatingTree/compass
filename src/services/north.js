@@ -39,6 +39,7 @@ export default class North {
     constructor($rootScope, tabs, bg, $mdToast) {
         this.toast = $mdToast;
         this.port = chrome.runtime.connect('pnhaikohelnlfpmjgiajjlgliofccjdc');
+        
         this.port.onMessage.addListener((msg) => {
             if (msg.cmd === 'foundPassword') {
                 if (msg.error) {

@@ -56,5 +56,5 @@ function startTimeout() {
             password = "";
             masterTimeout = null;
         }
-    }, 60 * 1000);
+    }, 90 * 1000);
 }

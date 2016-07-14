@@ -5,9 +5,9 @@
         <title>Compass</title>
         <script src="dist/app.bundle.js"></script>
     </head>
-    <body ng-controller="AppController as vm" ng-class="[vm.style.body]">
-        <div layout="column">
-            <md-toolbar ng-class="[vm.style.nav]">
+    <body ng-controller="AppController as vm" ng-class="[vm.style.body]" style="height: 100%;">
+        <div layout="column" style="height: 100%;">
+            <md-toolbar ng-class="[vm.style.nav]" style="flex: 0 1 auto;">
                 <div class="md-toolbar-tools">
                     <md-button class="md-icon-button" aria-label="{{vm.style.leftButton.aria}}" ng-click="vm.style.leftButton.handler()" ng-if="vm.style.leftButton">
                         <md-icon style="color: white;">{{vm.style.leftButton.icon}}</md-icon>
@@ -19,7 +19,7 @@
                     </md-button>
                 </div>
             </md-toolbar>
-            <ng-view></ng-view>
+            <ng-view style="flex: 1 1 auto; position: relative;"></ng-view>
         </div>
     </body>
 </html>

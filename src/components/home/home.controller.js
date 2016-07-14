@@ -3,7 +3,7 @@
 import angular from 'angular';
 
 export default class HomeController {
-    constructor($scope, $location, style, north, bg, $mdDialog) {
+    constructor($scope, $location, data, style, north, bg, $mdDialog) {
         style.reset();
         style.addHeaderShadow();
         style.showRightButton('Refresh URLs', 'refresh', () => {
@@ -15,17 +15,13 @@ export default class HomeController {
 
         this.scope = $scope;
         this.location = $location;
+        this.data = data;
         this.north = north;
         this.bg = bg;
         this.dialog = $mdDialog;
 
-        this.root = {};
-        this.current = {};
-
-        this.scope.$on('sendFiles', (event, msg) => {
-            this.root = msg.files;
-            this.current = this.root;
-        });
+        this.root = this.data.files;
+        this.current = this.root;
 
         this.scope.$on('decrypt', (event, msg) => {
             if (!msg.error) {
@@ -35,8 +31,6 @@ export default class HomeController {
                 });
             }
         });
-
-        this.north.sendFiles();
     }
 
     addPassword(ev) {
@@ -86,4 +80,4 @@ export default class HomeController {
     }
 }
 
-HomeController.$inject = ['$scope', '$location', 'style', 'north', 'bg', '$mdDialog'];
+HomeController.$inject = ['$scope', '$location', 'data', 'style', 'north', 'bg', '$mdDialog'];

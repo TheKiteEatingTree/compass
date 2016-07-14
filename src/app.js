@@ -20,9 +20,10 @@ import UnlockController from './components/unlock/unlock.controller.js';
 import PasswordController from './components/password/password.controller.js';
 import NewPasswordController from './components/password/new-password.controller.js';
 
-import style from './services/style.js';
 import bg from './services/bg.js';
+import data from './services/data.js';
 import north from './services/north.js';
+import style from './services/style.js';
 import tabs from './services/tabs.js';
 
 angular.module('compass', [
@@ -32,9 +33,10 @@ angular.module('compass', [
     ngMaterial
 ])
 .config(config)
-.service('style', style)
 .service('bg', bg)
+.service('data', data)
 .service('north', north)
+.service('style', style)
 .service('tabs', tabs)
 .controller('AppController', AppController)
 .controller('UnlockController', UnlockController)
