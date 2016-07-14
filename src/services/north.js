@@ -72,10 +72,11 @@ export default class North {
         });
     }
 
-    encrypt(name, content) {
+    encrypt(name, content, password) {
         this.port.postMessage({
             name,
             content,
+            password,
             cmd: 'encrypt'
         });
     }
