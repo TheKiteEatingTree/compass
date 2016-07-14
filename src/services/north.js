@@ -46,6 +46,11 @@ export default class North {
                 }
                 // loginByPasting(bg, tabs, msg);
                 loginBySettingValue(tabs, msg);
+            } else if (msg.cmd === 'refresh') {
+                if (msg.error) {
+                    return this.toast.showSimple(msg.error);
+                }
+                return this.toast.showSimple('Auto Login URLs Refreshed')
             } else {
                 $rootScope.$apply(() => $rootScope.$broadcast(msg.cmd, msg));
             }
@@ -67,11 +72,19 @@ export default class North {
         });
     }
 
-    encrypt(name, content) {
+    encrypt(name, content, password) {
         this.port.postMessage({
             name,
             content,
+            password,
             cmd: 'encrypt'
+        });
+    }
+
+    refresh(password) {
+        this.port.postMessage({
+            password,
+            cmd: 'refresh'
         });
     }
 

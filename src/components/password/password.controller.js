@@ -40,7 +40,10 @@ export default class PasswordController {
                 });
                 this.style.showRightButton('Save', 'check', () => {
                     this.loading = true;
-                    this.north.encrypt($routeParams.file, this.password);
+                    this.bg.getBackgroundPage().then((bg) => {
+                        const password = bg.getPassword();
+                        this.north.encrypt($routeParams.file, this.password, password);
+                    });
                 });
             }
         });
