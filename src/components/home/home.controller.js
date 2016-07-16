@@ -1,9 +1,10 @@
 'use strict';
 
 import angular from 'angular';
+import * as inject from './../../services/inject.js';
 
 export default class HomeController {
-    constructor($scope, $location, data, style, north, bg, $mdDialog) {
+    constructor($scope, $location, data, style, north, bg, $mdDialog, tabs, $mdToast) {
         style.reset();
         style.addHeaderShadow();
         style.showRightButton('Refresh URLs', 'refresh', () => {
@@ -19,18 +20,11 @@ export default class HomeController {
         this.north = north;
         this.bg = bg;
         this.dialog = $mdDialog;
+        this.tabs = tabs;
+        this.toast = $mdToast;
 
         this.root = this.data.files;
         this.current = this.root;
-
-        this.scope.$on('decrypt', (event, msg) => {
-            if (!msg.error) {
-                this.bg.getBackgroundPage().then((bg) => {
-                    bg.copyPassword(msg.password.password);
-                    window.close();
-                });
-            }
-        });
     }
 
     addPassword(ev) {
@@ -48,13 +42,48 @@ export default class HomeController {
         });
     }
 
+    // TODO: consider the usefulness of this being a setting
+    // function loginByPasting(bg, tabs, msg) {
+    //     return bg.getBackgroundPage().then((bg) => {
+    //         bg.copyPassword(msg.password.password);
+
+    //         return tabs.executeScript({
+    //             file: 'injectPassword.js'
+    //         }).then(() => {
+    //             bg.copyPassword(msg.password.user);
+
+    //             return tabs.executeScript({
+    //                 file: 'injectUser.js'
+    //             });
+    //         }).then(() => bg.copyPassword(Random.generateString()));
+    //     });
+    // }
+    autoLogin(match) {
+        this.north.decrypt(match).then((password) => {
+            let user = '';
+            let pass = '';
+            if (password.user) {
+                user = password.user.replace(/\'/g, '\\\'');
+            }
+            if (password.password) {
+                pass = password.password.replace(/\'/g, '\\\'');
+            }
+            return this.tabs.executeScript({
+                code: inject.getCode(user, pass)
+            });
+        })
+        .then(() => window.close())
+        .catch(err => this.toast.showSimple(err.message));
+    }
+
     copyPassword(evt, file) {
         evt.stopPropagation();
         const name = this.prefixName(this.current, file.name);
-        this.bg.getBackgroundPage().then((bg) => {
-            const password = bg.getPassword();
-            this.north.decrypt(name, password);
-        });
+
+        this.north.decrypt(name)
+            .then(password => this.bg.copyPassword(password.password))
+            .then(() => window.close())
+            .catch(err => this.toast.showSimple(err.message));
     }
 
     goUp() {
@@ -80,4 +109,4 @@ export default class HomeController {
     }
 }
 
-HomeController.$inject = ['$scope', '$location', 'data', 'style', 'north', 'bg', '$mdDialog'];
+HomeController.$inject = ['$scope', '$location', 'data', 'style', 'north', 'bg', '$mdDialog', 'tabs', '$mdToast'];

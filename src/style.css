@@ -81,6 +81,10 @@ body {
     text-overflow: ellipsis;
     overflow: hidden;
 }
+.list-title {
+    font-size: 12px;
+    margin: 5px 0;
+}
 .password-list {
     padding: 0;
 }

@@ -6,6 +6,7 @@ export default class Data {
         this.north = north;
 
         this.files = {};
+        this.matches = [];
     }
 
     login(password, url) {
@@ -23,6 +24,7 @@ export default class Data {
                 }
 
                 that.files = msg.files;
+                that.matches = msg.matches;
 
                 return resolve();
             });
