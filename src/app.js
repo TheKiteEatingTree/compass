@@ -11,7 +11,6 @@ import 'angular-aria';
 import ngMessages from 'angular-messages';
 import ngMaterial from 'angular-material';
 
-
 import config from './app.config.js';
 
 import AppController from './app.controller.js';
@@ -20,6 +19,7 @@ import UnlockController from './components/unlock/unlock.controller.js';
 import PasswordController from './components/password/password.controller.js';
 import NewPasswordController from './components/password/new-password.controller.js';
 
+import autoLogin from './services/auto-login.js';
 import bg from './services/bg.js';
 import data from './services/data.js';
 import north from './services/north.js';
@@ -33,6 +33,7 @@ angular.module('compass', [
     ngMaterial
 ])
 .config(config)
+.service('autoLogin', autoLogin)
 .service('bg', bg)
 .service('data', data)
 .service('north', north)

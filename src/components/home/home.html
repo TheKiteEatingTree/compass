@@ -1,7 +1,7 @@
 <div style="overflow-y: auto; margin-bottom: 0; padding: 15px 10px; position: absolute; top: 0; bottom: 0; left: 0; right: 0; min-height: 500px;">
     <p class="list-title" ng-if="vm.data.matches.length">Auto-Login</p>
     <md-list ng-if="vm.data.matches.length" class="password-list md-whiteframe-4dp" style="margin-bottom: 30px;">
-        <md-list-item ng-repeat-start="match in vm.data.matches" ng-click="vm.autoLogin(match)">
+        <md-list-item ng-repeat-start="match in vm.data.matches" ng-click="vm.login(match)">
             <p class="ellipsis">{{match.slice(0, -4)}}</p>
         </md-list-item>
         <md-divider ng-hide="$last" ng-repeat-end></md-divider>
