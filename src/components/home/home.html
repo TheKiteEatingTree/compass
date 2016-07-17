@@ -1,11 +1,20 @@
-<div layout="column" style="max-height:500px; overflow-y: auto; margin-bottom: 0; padding: 15px 10px; position: relative;">
+<div style="overflow-y: auto; margin-bottom: 0; padding: 15px 10px; position: absolute; top: 0; bottom: 0; left: 0; right: 0; min-height: 500px;">
+    <p class="list-title" ng-if="vm.data.matches.length">Auto-Login</p>
+    <md-list ng-if="vm.data.matches.length" class="password-list md-whiteframe-4dp" style="margin-bottom: 30px;">
+        <md-list-item ng-repeat-start="match in vm.data.matches" ng-click="vm.login(match)">
+            <p class="ellipsis">{{match.slice(0, -4)}}</p>
+        </md-list-item>
+        <md-divider ng-hide="$last" ng-repeat-end></md-divider>
+    </md-list>
+
+    <p ng-if="vm.data.matches.length" class="list-title">All Passwords</p>
     <md-list class="password-list md-whiteframe-4dp" style="margin-bottom: 60px;">
         <md-list-item ng-show="vm.current.up" ng-click="vm.goUp()">
             <md-icon>arrow_upward</md-icon>
             <p>..</p>
         </md-list-item>
         <md-divider ng-show="vm.current.up"></md-divider>
-        <md-list-item ng-repeat-start="file in vm.current.files" ng-click="vm.selectFile(file)">
+        <md-list-item ng-repeat-start="file in vm.current.files" ng-click="vm.selectFile(file)" aria-label="Select File">
             <md-icon ng-if="file.files">folder</md-icon>
             <p ng-if="file.files" class="ellipsis">{{file.name}}</p>
             <p ng-if="!file.files" class="ellipsis">{{file.name.slice(0, -4)}}</P>

@@ -5,6 +5,11 @@ export default class BG {
         this.promise = $q;
     }
 
+    copyPassword(password) {
+        return this.getBackgroundPage()
+            .then(bg => bg.copyPassword(password));
+    }
+
     getBackgroundPage() {
         return this.promise(function(resolve, reject) {
             chrome.runtime.getBackgroundPage((bg) => {
@@ -14,6 +19,11 @@ export default class BG {
                 return resolve(bg);
             });
         });
+    }
+
+    getMasterPassword() {
+        return this.getBackgroundPage()
+            .then(bg => bg.getPassword());
     }
 }
 

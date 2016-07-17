@@ -3,7 +3,7 @@
 import angular from 'angular';
 
 export default class HomeController {
-    constructor($scope, $location, style, north, bg, $mdDialog) {
+    constructor($location, $mdDialog, $mdToast, autoLogin, bg, data, north, style) {
         style.reset();
         style.addHeaderShadow();
         style.showRightButton('Refresh URLs', 'refresh', () => {
@@ -13,30 +13,17 @@ export default class HomeController {
             });
         });
 
-        this.scope = $scope;
         this.location = $location;
-        this.north = north;
-        this.bg = bg;
         this.dialog = $mdDialog;
+        this.toast = $mdToast;
+        this.autoLogin = autoLogin;
+        this.bg = bg;
+        this.data = data;
+        this.north = north;
 
-        this.root = {};
-        this.current = {};
 
-        this.scope.$on('sendFiles', (event, msg) => {
-            this.root = msg.files;
-            this.current = this.root;
-        });
-
-        this.scope.$on('decrypt', (event, msg) => {
-            if (!msg.error) {
-                this.bg.getBackgroundPage().then((bg) => {
-                    bg.copyPassword(msg.password.password);
-                    window.close();
-                });
-            }
-        });
-
-        this.north.sendFiles();
+        this.root = this.data.files;
+        this.current = this.root;
     }
 
     addPassword(ev) {
@@ -54,13 +41,21 @@ export default class HomeController {
         });
     }
 
+
+    login(match) {
+        this.autoLogin.login(match)
+            .then(() => window.close())
+            .catch(err => this.toast.showSimple(err.message));
+    }
+
     copyPassword(evt, file) {
         evt.stopPropagation();
         const name = this.prefixName(this.current, file.name);
-        this.bg.getBackgroundPage().then((bg) => {
-            const password = bg.getPassword();
-            this.north.decrypt(name, password);
-        });
+
+        this.north.decrypt(name)
+            .then(password => this.bg.copyPassword(password.password))
+            .then(() => window.close())
+            .catch(err => this.toast.showSimple(err.message));
     }
 
     goUp() {
@@ -86,4 +81,4 @@ export default class HomeController {
     }
 }
 
-HomeController.$inject = ['$scope', '$location', 'style', 'north', 'bg', '$mdDialog'];
+HomeController.$inject = ['$location', '$mdDialog', '$mdToast', 'autoLogin', 'bg', 'data', 'north', 'style'];

@@ -1,18 +1,17 @@
 'use strict';
 
 export default class HomeController {
-    constructor($scope, $location, style, bg, north, tabs) {
+    constructor($location, bg, data, style, tabs) {
         style.reset();
         style.cyanBg();
+
         this.location = $location;
         this.bg = bg;
-        this.north = north;
+        this.data = data;
         this.tabs = tabs;
 
         this.password = "";
         this.error = "";
-
-        $scope.$on('testPassword', (event, msg) => this.testPasswordHandler(msg));
 
         this.bg.getBackgroundPage().then((bg) => {
             this.password = bg.getPassword();
@@ -24,24 +23,15 @@ export default class HomeController {
 
     submit() {
         this.error = "";
-        this.tabs.getCurrent()
-            .then(tab => this.north.testPassword(this.password, tab.url))
-            .catch(() => this.north.testPassword(this.password));
-    }
-
-    testPasswordHandler(msg) {
-        if (msg.error) {
-            this.error = msg.error;
-            return;
-        }
-
-        this.bg.getBackgroundPage().then((bg) => {
-            bg.savePassword(this.password);
-            this.location.path('/home');
-        }).catch((err) => {
-            this.error = err.getMessage();
-        });
+        this.tabs.getCurrent().catch(() => {})
+            .then(tab => this.data.login(this.password, tab.url))
+            .then(() => this.bg.getBackgroundPage())
+            .then((bg) => {
+                bg.savePassword(this.password);
+                this.location.path('/home');
+            })
+            .catch(err => this.error = err.message);
     }
 }
 
-HomeController.$inject = ['$scope', '$location', 'style', 'bg', 'north', 'tabs'];
+HomeController.$inject = ['$location', 'bg', 'data', 'style', 'tabs'];

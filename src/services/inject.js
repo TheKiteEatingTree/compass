@@ -1,4 +1,5 @@
 export function getCode(user, password) {
+    console.log(user);
 return `
 (function() {
     'use strict';

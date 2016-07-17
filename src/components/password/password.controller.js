@@ -17,14 +17,6 @@ export default class PasswordController {
 
         this.showPassword = false;
 
-        this.scope.$on('decrypt', (event, msg) => {
-            if (msg.error) {
-                return this.toast.showSimple(msg.error);
-            }
-            this.password = msg.password;
-            this.reset();
-        });
-
         this.scope.$on('encrypt', (event, msg) => {
             if (msg.error) {
                 return this.toast.showSimple(msg.error);
@@ -48,20 +40,16 @@ export default class PasswordController {
             }
         });
 
-        this.decrypt($routeParams.file);
+        this.north.decrypt($routeParams.file).then((password) => {
+            this.password = password;
+            this.reset();
+        }).catch(err => this.toast.showSimple(err.message));
     }
 
     copyPassword() {
-        this.bg.getBackgroundPage().then((bg) => {
-            bg.copyPassword(this.password.password);
-        });
-    }
-
-    decrypt(name) {
-        this.bg.getBackgroundPage().then((bg) => {
-            const password = bg.getPassword();
-            this.north.decrypt(name, password);
-        });
+        this.bg.copyPassword(this.password.password)
+            .then(() => this.toast.showSimple('Password copied'))
+            .catch(err => this.toast.showSimple(err.message));
     }
 
     reset() {
