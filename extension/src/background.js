@@ -1,6 +1,6 @@
 'use strict';
 
-import Random from './utils/Random.js';
+import Random from './../../shared/Random.js';
 
 window.copyPassword = copyPassword;
 window.getPassword = getPassword;

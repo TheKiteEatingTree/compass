@@ -1,3 +1,4 @@
 node_modules
-app/dist
+app/app/dist
+extension/app/dist
 .zedstate

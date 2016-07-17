@@ -1,6 +1,6 @@
 'use strict';
 
-import Random from './Random.js';
+import Random from './../../../shared/Random.js';
 
 export default class Password {
     constructor(data) {
