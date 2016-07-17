@@ -1,7 +1,7 @@
 {
-    "name": "northern-pass",
+    "name": "Compass Base",
     "version": "1.0",
-    "description": "Chrome packaged app for pass (password-store)",
+    "description": "Password manager for Chrome",
     "icons": {
         "128": "news_icon.png"
     },
