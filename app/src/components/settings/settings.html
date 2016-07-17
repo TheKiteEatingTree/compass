@@ -1,0 +1,39 @@
+<div layout=column layout-padding>
+    <div layout="row" flex>
+        <md-input-container flex class="md-block no-bottom">
+            <label>Public Key Location</label>
+            <input ng-model="vm.publicKeyPath" placeholder="Select public key" disabled>
+            <div ng-messages="vm.publicKeyPath.$error" role="alert">
+                <div ng-message-exp="">
+
+                </div>
+            </div>
+        </md-input-container>
+        <div>
+            <md-button class="md-raised" ng-click="vm.selectPublicKey()">Select...</md-button>
+        </div>
+    </div>
+    <div layout="row" flex>
+        <md-input-container flex class="md-block no-bottom">
+            <label>Private Key Location</label>
+            <input ng-model="vm.privateKeyPath" placeholder="Select private key" disabled>
+            <div ng-messages="vm.privateKeyPath.$error" role="alert">
+                <div ng-message="">
+
+                </div>
+            </div>
+        </md-input-container>
+        <div>
+            <md-button class="md-raised" ng-click="vm.selectPrivateKey()">Select...</md-button>
+        </div>
+    </div>
+    <div layout="row" flex>
+        <md-input-container flex class="md-block no-bottom">
+            <label>Password Directory Location</label>
+            <input ng-model="vm.passDir" placeholder="Select password directory" disabled>
+        </md-input-container>
+        <div>
+            <md-button class="md-raised" ng-click="vm.selectDir()">Select...</md-button>
+        </div>
+    </div>
+</div>

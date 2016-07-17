@@ -5,8 +5,7 @@ export default class North {
         this.promise = $q;
         this.toast = $mdToast;
         this.bg = bg;
-        this.port = chrome.runtime.connect('pnhaikohelnlfpmjgiajjlgliofccjdc');
-
+        this.port = chrome.runtime.connect('pafbgngkphldlhbcdoebfffapgkbginf');
         this.port.onMessage.addListener((msg) => {
             if (msg.cmd === 'refresh') {
                 if (msg.error) {

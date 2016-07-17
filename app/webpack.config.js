@@ -2,22 +2,22 @@
 
 module.exports = {
     entry: {
-        app: "./src/app.js",
-        background: "./src/background.js"
+        app: `${__dirname}/src/app.js`,
+        background: `${__dirname}/src/background.js`
     },
     output: {
-        path: __dirname + '/app/dist',
+        path: `${__dirname}/app/dist`,
         publicPath: '/dist/',
         filename: "[name].bundle.js"
     },
     module: {
         loaders: [{
             test: /\.css$/,
-            loader: "style!css"
+            loader: 'style!css'
         }, {
             test: /\.js$/,
             exclude: /node_modules/,
-            loader: "babel-loader"
+            loader: 'babel-loader'
         }, {
             test: /\.(png|jpg|jpeg|gif|svg|woff|woff2|ttf|eot)$/,
             loader: 'file-loader'
