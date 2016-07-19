@@ -1,21 +1,12 @@
 'use strict';
 
 export default class NewPasswordController {
-    constructor($scope, $mdDialog, $mdToast, filename, north) {
-        this.scope = $scope;
+    constructor($mdDialog, $mdToast, data, filename, north) {
         this.dialog = $mdDialog;
         this.toast = $mdToast;
-        this.north = north;
-
+        this.data = data;
         this.filename = filename;
-
-        this.scope.$on('create', (event, msg) => {
-            if (msg.error) {
-                return this.toast.show(this.toast.simple().textContent(msg.error));
-            }
-
-            return this.dialog.hide(this.filename);
-        });
+        this.north = north;
     }
 
     cancel() {
@@ -24,7 +15,11 @@ export default class NewPasswordController {
 
     create() {
         if (this.form.$valid) {
-            return this.north.create(this.filename);
+            return this.north.create(this.filename).then(() => {
+                this.data.addFile(this.filename);
+                this.dialog.hide(this.filename);
+            })
+            .catch(err => this.toast.showSimple(err.message));
         }
         if (!this.form.filename.$touched) {
             this.form.filename.$setTouched();
@@ -32,4 +27,4 @@ export default class NewPasswordController {
     }
 }
 
-NewPasswordController.$inject = ['$scope', '$mdDialog', '$mdToast', 'filename', 'north'];
+NewPasswordController.$inject = ['$mdDialog', '$mdToast', 'data', 'filename', 'north'];

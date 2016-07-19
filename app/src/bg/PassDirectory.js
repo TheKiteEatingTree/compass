@@ -38,7 +38,7 @@ export default class PassDirectory {
     }
 
     deleteFile(name) {
-        return this.dir.deleteFile(name);
+        // TODO: make this delete a file and any empty parent dirs
     }
 
     getDisplayPath() {

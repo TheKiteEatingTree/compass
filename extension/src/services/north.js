@@ -19,9 +19,26 @@ export default class North {
     }
 
     create(name) {
-        this.port.postMessage({
-            name,
-            cmd: 'create'
+        return new this.promise((resolve, reject) => {
+            const that = this;
+            this.port.onMessage.addListener(function create(msg) {
+                if (msg.cmd !== 'create') {
+                    return;
+                }
+
+                that.port.onMessage.removeListener(create);
+
+                if (msg.error) {
+                    return reject(new Error(msg.error));
+                }
+
+                return resolve();
+            });
+
+            this.port.postMessage({
+                name,
+                cmd: 'create'
+            });
         });
     }
 
@@ -90,7 +107,7 @@ export default class North {
                         return reject(new Error(msg.error));
                     }
 
-                    return resolve(msg.password);
+                    return resolve(msg);
                 });
 
                 this.port.postMessage({
