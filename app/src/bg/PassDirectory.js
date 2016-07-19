@@ -37,6 +37,10 @@ export default class PassDirectory {
         });
     }
 
+    deleteFile(name) {
+        return this.dir.deleteFile(name);
+    }
+
     getDisplayPath() {
         return this.dir.getDisplayPath();
     }
