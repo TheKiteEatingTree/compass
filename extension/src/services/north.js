@@ -59,7 +59,6 @@ export default class North {
                 if (msg.cmd !== 'del') {
                     return;
                 }
-
                 that.port.onMessage.removeListener(del);
 
                 if (msg.error) {

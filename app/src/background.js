@@ -67,8 +67,11 @@ function create(name, port) {
 function del(name, port) {
     const msg = {cmd: 'del'};
     window.passDir
-        .then(dir => dir.deleteFile(name))
-        .then(() => port.postMessage(msg))
+        .then(dir => dir.findFile(name))
+        .then(file => file.del())
+        .then(() => {
+            port.postMessage(msg);
+        })
         .catch((err) => {
             msg.error = err.message;
             port.postMessage(msg);

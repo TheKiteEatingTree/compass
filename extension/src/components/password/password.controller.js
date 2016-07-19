@@ -61,7 +61,7 @@ export default class PasswordController {
             icon: 'casino',
             title: 'Generate Password',
             click: () => {
-                console.log('generate password');
+                //TODO: generate password
             }
         }, {
             icon: 'delete',
@@ -75,13 +75,13 @@ export default class PasswordController {
                     .ok('Delete')
                     .cancel('Cancel');
 
-                this.dialog.show(confirm).then(() => {
-                    this.north.del(this.file).then(() => {
+                this.dialog.show(confirm)
+                    .then(() => this.north.del(this.file))
+                    .then(() => {
                         this.location.path('/home');
                         this.toast.showSimple('Password deleted');
                     })
                     .catch(err => this.toast.showSimple(err.message));
-                });
             }
         }]);
     }
