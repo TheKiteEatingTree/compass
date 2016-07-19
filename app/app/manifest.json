@@ -1,9 +1,9 @@
 {
     "name": "Compass Base",
-    "version": "1.0",
+    "version": "0.5.0",
     "description": "Password manager for Chrome",
     "icons": {
-        "128": "news_icon.png"
+        "128": "compass_locked.png"
     },
     "app": {
         "background": {
