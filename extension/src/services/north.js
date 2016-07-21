@@ -19,9 +19,26 @@ export default class North {
     }
 
     create(name) {
-        this.port.postMessage({
-            name,
-            cmd: 'create'
+        return new this.promise((resolve, reject) => {
+            const that = this;
+            this.port.onMessage.addListener(function create(msg) {
+                if (msg.cmd !== 'create') {
+                    return;
+                }
+
+                that.port.onMessage.removeListener(create);
+
+                if (msg.error) {
+                    return reject(new Error(msg.error));
+                }
+
+                return resolve();
+            });
+
+            this.port.postMessage({
+                name,
+                cmd: 'create'
+            });
         });
     }
 
@@ -52,12 +69,54 @@ export default class North {
         });
     }
 
-    encrypt(name, content, password) {
-        this.port.postMessage({
-            name,
-            content,
-            password,
-            cmd: 'encrypt'
+    del(name) {
+        return new this.promise((resolve, reject) => {
+            const that = this;
+            this.port.onMessage.addListener(function del(msg) {
+                if (msg.cmd !== 'del') {
+                    return;
+                }
+                that.port.onMessage.removeListener(del);
+
+                if (msg.error) {
+                    return reject(new Error(msg.error));
+                }
+
+                return resolve();
+            });
+
+            this.port.postMessage({
+                name,
+                cmd: 'del'
+            });
+        });
+    }
+
+    encrypt(name, content) {
+        return this.bg.getMasterPassword().then((password) => {
+            return new this.promise((resolve, reject) => {
+                const that = this;
+                this.port.onMessage.addListener(function encrypt(msg) {
+                    if (msg.cmd !== 'encrypt') {
+                        return;
+                    }
+
+                    that.port.onMessage.removeListener(encrypt);
+
+                    if (msg.error) {
+                        return reject(new Error(msg.error));
+                    }
+
+                    return resolve(msg);
+                });
+
+                this.port.postMessage({
+                    name,
+                    content,
+                    password,
+                    cmd: 'encrypt'
+                });
+            });
         });
     }
 

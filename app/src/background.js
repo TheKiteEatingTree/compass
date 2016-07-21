@@ -25,8 +25,8 @@ chrome.app.runtime.onLaunched.addListener(() => {
 
 chrome.runtime.onConnectExternal.addListener((port) => {
     port.onMessage.addListener((msg) => {
-        if (msg.cmd === 'sendFiles') {
-            sendFiles(port);
+        if (msg.cmd === 'del') {
+            del(msg.name, port);
         } else if (msg.cmd === 'login') {
             login(msg.password, msg.url, port);
         } else if (msg.cmd === 'decrypt') {
@@ -62,6 +62,19 @@ function create(name, port) {
         msg.error = err.message;
         port.postMessage(msg);
     });
+}
+
+function del(name, port) {
+    const msg = {cmd: 'del'};
+    window.passDir
+        .then(dir => dir.deleteFile(name))
+        .then(() => {
+            port.postMessage(msg);
+        })
+        .catch((err) => {
+            msg.error = err.message;
+            port.postMessage(msg);
+        });
 }
 
 function savePassDir(dir) {
@@ -129,18 +142,6 @@ function refresh(password, port) {
     urls.refreshUrls(password)
         .then(() => port.postMessage(msg))
         .catch((err) => {
-            msg.error = err.message;
-            port.postMessage(msg);
-        });
-}
-
-function sendFiles(port) {
-    const msg = {cmd: 'sendFiles'};
-    window.passDir.then(passDir => passDir.getSimpleFiles())
-        .then((files) => {
-            msg.files = files;
-            port.postMessage(msg);
-        }).catch((err) => {
             msg.error = err.message;
             port.postMessage(msg);
         });

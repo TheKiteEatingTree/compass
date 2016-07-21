@@ -12,11 +12,25 @@
                     <md-button class="md-icon-button" aria-label="{{vm.style.leftButton.aria}}" ng-click="vm.style.leftButton.handler()" ng-if="vm.style.leftButton">
                         <md-icon style="color: white;">{{vm.style.leftButton.icon}}</md-icon>
                     </md-button>
+                    <div class="icon-button-spacer" ng-if="!vm.style.leftButton && (vm.style.rightButton || vm.style.rightMenu)"></div>
                     <span class="md-display-1 title" flex>compass</span>
-                    <div class="icon-button-spacer" ng-if="vm.style.leftButton && !vm.style.rightButton"></div>
+                    <div class="icon-button-spacer" ng-if="vm.style.leftButton && (!vm.style.rightButton && !vm.style.rightMenu)"></div>
                     <md-button class="md-icon-button" aria-label="{{vm.style.rightButton.aria}}" ng-click="vm.style.rightButton.handler()" ng-if="vm.style.rightButton">
                         <md-icon style="color: white;">{{vm.style.rightButton.icon}}</md-icon>
                     </md-button>
+                    <md-menu md-offset="0 50" md-position-mode="target-right target" ng-if="vm.style.rightMenu">
+                        <md-button aria-label="Open menu" class="md-icon-button" ng-click="$mdOpenMenu($event)">
+                            <md-icon md-menu-origin style="color: white;">more_vert</md-icon>
+                        </md-button>
+                        <md-menu-content width="3">
+                              <md-menu-item ng-repeat="item in vm.style.rightMenu.items">
+                                    <md-button ng-click="item.click($event)">
+                                        <md-icon md-menu-align-target>{{item.icon}}</md-icon>
+                                        {{item.title}}
+                                    </md-button>
+                              </md-menu-item>
+                        </md-menu-content>
+                    </md-menu>
                 </div>
             </md-toolbar>
             <ng-view style="flex: 1 1 auto; position: relative;"></ng-view>

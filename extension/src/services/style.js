@@ -10,6 +10,7 @@ export default class Style {
         this.nav = "";
         this.leftButton = false;
         this.rightButton = false;
+        this.rightMenu = false;
     }
 
     addHeaderShadow() {
@@ -37,10 +38,18 @@ export default class Style {
     }
 
     showRightButton(aria, icon, handler) {
+        this.rightMenu = false;
         this.rightButton = {
             aria,
             icon,
             handler
+        };
+    }
+
+    showRightMenu(items) {
+        this.rightButton = false;
+        this.rightMenu = {
+            items
         };
     }
 }

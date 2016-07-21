@@ -1,49 +1,33 @@
 'use strict';
 
 export default class PasswordController {
-    constructor($scope, $routeParams, style, north, bg, $location, $mdToast) {
+    constructor($location, $mdDialog, $mdToast, $routeParams, $scope, bg, data, north, style) {
         this.style = style;
         style.reset();
         style.addHeaderShadow();
-        this.showBackButton();
 
-        this.loading = true;
-        this.scope = $scope;
-        this.north = north;
-        this.bg = bg;
-        this.title = $routeParams.file.slice(0, -4);
         this.location = $location;
+        this.dialog = $mdDialog;
         this.toast = $mdToast;
+        this.scope = $scope;
+        this.bg = bg;
+        this.data = data;
+        this.north = north;
 
+        this.file = $routeParams.file;
+        this.loading = true;
         this.showPassword = false;
-
-        this.scope.$on('encrypt', (event, msg) => {
-            if (msg.error) {
-                return this.toast.showSimple(msg.error);
-            }
-            this.reset();
-        });
+        this.title = this.file.slice(0, -4);
 
         this.scope.$watch('passwordForm.$dirty', (dirty) => {
-            if (dirty) {
-                this.style.showLeftButton('Cancel', 'clear', () => {
-                    this.loading = true;
-                    this.decrypt($routeParams.file);
-                });
-                this.style.showRightButton('Save', 'check', () => {
-                    this.loading = true;
-                    this.bg.getBackgroundPage().then((bg) => {
-                        const password = bg.getPassword();
-                        this.north.encrypt($routeParams.file, this.password, password);
-                    });
-                });
+            if (!dirty) {
+                return;
             }
+
+            this.showSaveCancelButtons();
         });
 
-        this.north.decrypt($routeParams.file).then((password) => {
-            this.password = password;
-            this.reset();
-        }).catch(err => this.toast.showSimple(err.message));
+        this.decrypt();
     }
 
     copyPassword() {
@@ -52,24 +36,73 @@ export default class PasswordController {
             .catch(err => this.toast.showSimple(err.message));
     }
 
-    reset() {
-        this.scope.passwordForm.$setPristine();
-        this.showBackButton();
-        this.showMoreButton();
-        this.loading = false;
-    }
-
-    showBackButton() {
-        this.style.showLeftButton('Back', 'arrow_back', () => {
+    decrypt() {
+        this.north.decrypt(this.file).then((password) => {
+            this.password = password;
+            this.reset();
+        }).catch((err) => {
+            this.toast.showSimple(err.message);
             this.location.path('/home');
         });
     }
 
-    showMoreButton() {
-        this.style.showRightButton('More', 'more_vert', () => {
+    reset() {
+        this.scope.passwordForm.$setPristine();
+        this.showMenu();
+
+        this.style.showLeftButton('Back', 'arrow_back', () => {
             this.location.path('/home');
+        });
+
+        this.loading = false;
+    }
+
+    showMenu() {
+        this.style.showRightMenu([{
+            icon: 'casino',
+            title: 'Generate Password',
+            click: () => {
+                //TODO: generate password
+            }
+        }, {
+            icon: 'delete',
+            title: 'Delete',
+            click: (ev) => {
+                var confirm = this.dialog.confirm()
+                    .title('Delete Password?')
+                    .textContent(`Are you sure you want to delete ${this.title}?`)
+                    .ariaLabel('Confirm Delete')
+                    .targetEvent(ev)
+                    .ok('Delete')
+                    .cancel('Cancel');
+
+                this.dialog.show(confirm)
+                    .then(() => this.north.del(this.file))
+                    .then(() => {
+                        this.data.removeFile(this.file);
+                        this.location.path('/home');
+                        this.toast.showSimple('Password deleted');
+                    })
+                    .catch(err => this.toast.showSimple(err.message));
+            }
+        }]);
+    }
+
+    showSaveCancelButtons() {
+        this.style.showLeftButton('Cancel', 'clear', () => {
+            this.loading = true;
+            this.decrypt();
+        });
+
+        this.style.showRightButton('Save', 'check', () => {
+            this.loading = true;
+            this.north.encrypt(this.file, this.password).then(() => {
+                this.toast.showSimple('Password saved');
+                this.reset();
+            })
+            .catch(err => this.toast.showSimple(err.message));
         });
     }
 }
 
-PasswordController.$inject = ['$scope', '$routeParams', 'style', 'north', 'bg', '$location', '$mdToast'];
+PasswordController.$inject = ['$location', '$mdDialog', '$mdToast', '$routeParams', '$scope', 'bg', 'data', 'north', 'style'];
