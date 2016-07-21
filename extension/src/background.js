@@ -10,6 +10,19 @@ let password = "";
 let masterTimeout = null;
 let copyTimeout = null;
 
+const CLEAR_MASTER_INTERVAL = 60;
+
+chrome.idle.setDetectionInterval(CLEAR_MASTER_INTERVAL);
+chrome.idle.onStateChanged.addListener((idleState) => {
+    if (idleState === 'locked' || idleState === 'idle') {
+        const views = chrome.extension.getViews({type: 'popup'});
+        views.forEach((view) => view.close());
+
+        password = "";
+        masterTimeout = null;
+    }
+});
+
 function copy(txt) {
     const clipboard = document.createElement('textarea');
     clipboard.value = txt;
@@ -40,10 +53,10 @@ function getPassword() {
 
 function savePassword(_password) {
     password = _password;
-    if (masterTimeout) {
-        window.clearTimeout(masterTimeout);
-    }
-    startTimeout();
+    // if (masterTimeout) {
+    //     window.clearTimeout(masterTimeout);
+    // }
+    // startTimeout();
 }
 
 function startTimeout() {
@@ -56,5 +69,5 @@ function startTimeout() {
             password = "";
             masterTimeout = null;
         }
-    }, 90 * 1000);
+    }, CLEAR_MASTER_INTERVAL * 1000);
 }
