@@ -38,7 +38,14 @@ export default class PassDirectory {
     }
 
     deleteFile(name) {
-        // TODO: make this delete a file and any empty parent dirs
+        const parts = name.split('/');
+
+        return this.findFile(name)
+            .then(file => file.del())
+            .then(() => {
+                parts.pop();
+                return this._deleteEmptyDirs(parts);
+            });
     }
 
     getDisplayPath() {
@@ -63,5 +70,28 @@ export default class PassDirectory {
 
     createFile(name, exclusive) {
         return this.dir.createFile(name, exclusive);
+    }
+
+    _deleteEmptyDirs(parts) {
+        if (parts.length === 0) {
+            return Promise.resolve();
+        }
+
+        return this.dir.getDirectory(parts.join('/'))
+            .then((dir) => {
+                return Promise.all([
+                    Promise.resolve(dir),
+                    dir.read()
+                ]);
+            }).then(([dir, files]) => {
+                if (files.length) {
+                    return;
+                }
+
+                return dir.del().then(() => {
+                    parts.pop();
+                    return this._deleteEmptyDirs(parts);
+                });
+            });
     }
 }

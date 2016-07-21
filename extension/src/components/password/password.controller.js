@@ -1,7 +1,7 @@
 'use strict';
 
 export default class PasswordController {
-    constructor($location, $mdDialog, $mdToast, $routeParams, $scope, bg, north, style) {
+    constructor($location, $mdDialog, $mdToast, $routeParams, $scope, bg, data, north, style) {
         this.style = style;
         style.reset();
         style.addHeaderShadow();
@@ -11,6 +11,7 @@ export default class PasswordController {
         this.toast = $mdToast;
         this.scope = $scope;
         this.bg = bg;
+        this.data = data;
         this.north = north;
 
         this.file = $routeParams.file;
@@ -78,6 +79,7 @@ export default class PasswordController {
                 this.dialog.show(confirm)
                     .then(() => this.north.del(this.file))
                     .then(() => {
+                        this.data.removeFile(this.file);
                         this.location.path('/home');
                         this.toast.showSimple('Password deleted');
                     })
@@ -103,4 +105,4 @@ export default class PasswordController {
     }
 }
 
-PasswordController.$inject = ['$location', '$mdDialog', '$mdToast', '$routeParams', '$scope', 'bg', 'north', 'style'];
+PasswordController.$inject = ['$location', '$mdDialog', '$mdToast', '$routeParams', '$scope', 'bg', 'data', 'north', 'style'];

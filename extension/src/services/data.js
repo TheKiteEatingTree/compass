@@ -67,7 +67,36 @@ export default class Data {
                 cmd: 'login'
             });
         });
+    }
 
+    removeFile(file) {
+        const parts = file.split('/');
+        let current = this.findFile(file);
+        while (parts.length) {
+            const part = parts.pop();
+            if (!current.files || !current.files.length) {
+                current = this.findFile(parts.join('/'));
+                const i = current.files.findIndex(file => file.name === part);
+                current.files.splice(i, 1);
+            } else {
+                break;
+            }
+        }
+    }
+
+    findFile(file) {
+        if (!file.length) {
+            return this.files;
+        }
+        
+        const parts = file.split('/');
+        let current = this.files;
+
+        parts.forEach((part) => {
+            current = current.files.find(file => file.name === part);
+        });
+
+        return current;
     }
 }
 
