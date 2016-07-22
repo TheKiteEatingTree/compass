@@ -1,6 +1,7 @@
 {
     "name": "Compass Base",
     "version": "0.5.0",
+    "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA4OzTiGbZtp69/e+OXNxrCeIECmhjTpV4a/MQbVnrW1MVB5FVXPsuAlW4WWgXHkxKjw2NU0MzMe57WC6WvXEERAj/id4duhXkMsPElsb/Bna+Oew/wzlPh4+LznUzD4R9B51bje+Rkmv1vtTBwzy+4jan/BeBTMrbIcOpFO8XpOqbi3l+GWtGbxMxI0uHB6csGZRS2p6bz0jSvgVpVbAh9FZgBh4t5LUlunnksKfCJV7WzBU9d4ZBJ2ub8duiOR7P/2g74pJU46qMXCTl4RyxB4fm5eBsXV7W6zKdwhSnQOI+Vp3tERKwog3OAClZOWZ/j2UqiOlEiZz71aXb7NJfmwIDAQAB",
     "description": "Password manager for Chrome",
     "icons": {
         "128": "compass_locked.png"
