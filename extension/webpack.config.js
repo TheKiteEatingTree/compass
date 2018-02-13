@@ -10,20 +10,21 @@ module.exports = {
         publicPath: '/dist/',
         filename: "[name].bundle.js"
     },
+    devtool: 'source-map',
     module: {
-        loaders: [{
+        rules: [{
             test: /\.css$/,
-            loader: 'style!css'
+            use: ['style-loader', 'css-loader']
         }, {
             test: /\.js$/,
             exclude: /node_modules/,
-            loader: 'babel-loader'
+            use: 'babel-loader'
         }, {
             test: /\.(png|jpg|jpeg|gif|svg|woff|woff2|ttf|eot)$/,
-            loader: 'file-loader'
+            use: 'file-loader'
         }, {
             test: /\.html$/,
-            loader: 'html-loader'
+            use: 'html-loader'
         }]
     }
 };

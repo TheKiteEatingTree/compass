@@ -69,6 +69,9 @@ function loadUrls(password) {
     }).then((result) => {
         const urls = JSON.parse(result.data);
         return urls;
+    }).catch((err) => {
+        console.error('error in urls.loadUrls', err);
+        return [];
     });
 }
 

@@ -94,6 +94,7 @@ function savePublicKey(key) {
 
 function decrypt(name, password, port) {
     const msg = {cmd: 'decrypt'};
+    console.log('decrypt');
     window.passDir.then((passDir) => {
         return Promise.all([
             passDir.findFile(name),
